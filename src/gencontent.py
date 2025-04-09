@@ -83,7 +83,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
         dest_item_path = os.path.join(dest_dir_path, item_name) # Corresponding path in destination
 
         if os.path.isdir(source_item_path):
-            generate_pages_recursive(source_item_path, template_path, dest_item_path)
+            generate_pages_recursive(source_item_path, template_path, dest_item_path, basepath)
 
         elif os.path.isfile(source_item_path):
             if source_item_path.endswith(".md"):
