@@ -2,7 +2,7 @@ import os
 from markdown_blocks import markdown_to_html_node
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath=None):
     print(f"Generating page from {from_path} using template {template_path} to {dest_path}")
 
     with open(from_path, 'r') as content_file:
@@ -24,6 +24,11 @@ def generate_page(from_path, template_path, dest_path):
 
     template = template.replace('{{ Title }}', title)
     template = template.replace('{{ Content }}', html)
+
+    if basepath is not None:
+        template = template.replace('href="/', f'href="{basepath}')
+        template = template.replace('src="/', f'src="{basepath}')
+
 
     dest_dir_path = os.path.dirname(dest_path)
     if dest_dir_path != "":
@@ -67,7 +72,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 # os.path.isfile
 # pathlib.Path
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath=None):
     """
     Generate pages recursively from the content directory to the public directory.
     """
@@ -90,4 +95,5 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
                 from_path=source_item_path,  
                 template_path=template_path,
                 dest_path=dest_html_path,
+                basepath=basepath
             )
